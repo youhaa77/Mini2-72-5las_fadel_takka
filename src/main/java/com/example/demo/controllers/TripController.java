@@ -39,10 +39,7 @@ public class TripController {
     }
 
     // 3. Get Trip by ID
-    @GetMapping("/getById/{id}")
-    public Trip getTripById(@PathVariable Long id) {
-        return tripService.getTripById(id);
-    }
+
 
     // 4. Update Trip
     @PutMapping("/update/{id}")
@@ -69,5 +66,10 @@ public class TripController {
     @GetMapping("/findByCaptainId")
     public List<Trip> findTripsByCaptainId(@RequestParam Long captainId) {
         return tripService.findTripsByCaptainId(captainId);
+    }
+
+    @GetMapping("/{id}")
+    public Trip getTripById(@PathVariable Long id) {
+        return tripService.getTripById(id);
     }
 }
