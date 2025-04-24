@@ -77,16 +77,16 @@ class Mini2ApplicationTests {
 //	private CaptainService captainService;
 //	@Autowired
 //	private CaptainRepository captainRepository;
-//
-//	@Autowired
-//	private CustomerService customerService;
-//	@Autowired
-//	private CustomerRepository customerRepository;
-//
-//	@Autowired
-//	private PaymentService paymentService;
-//	@Autowired
-//	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private CustomerRepository customerRepository;
+
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Autowired
 	private TripService tripService;
@@ -123,11 +123,11 @@ class Mini2ApplicationTests {
 	public void setup() {
 		// Ensure all records are deleted
 
-		// paymentRepository.deleteAll();
-		// tripRepository.deleteAll();
+		 paymentRepository.deleteAll();
+		 tripRepository.deleteAll();
 		ratingRepository.deleteAll();
 		// captainRepository.deleteAll();
-		// customerRepository.deleteAll();
+		 customerRepository.deleteAll();
 	}
 	public static Field findFieldIgnoreCase(Class<?> clazz, String fieldName) {
 		Field[] declaredFields = clazz.getDeclaredFields();
@@ -208,227 +208,227 @@ class Mini2ApplicationTests {
 	}
 
 
-//	@Test
-//	public void testControllerAddCustomer() {
-//		Customer newCustomer = new Customer("John Doe", "john@example.com", "1234567890");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Customer> request = new HttpEntity<>(newCustomer, headers);
-//
-//		ResponseEntity<Customer> response = restTemplate.postForEntity(BASE_URL_CUSTOMER + "/addCustomer", request, Customer.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(newCustomer.getName(), response.getBody().getName());
-//	}
+	@Test
+	public void testControllerAddCustomer() {
+		Customer newCustomer = new Customer("John Doe", "john@example.com", "1234567890");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Customer> request = new HttpEntity<>(newCustomer, headers);
 
-//	@Test
-//	public void testControllerGetAllCustomers() {
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/allCustomers", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().isEmpty());
-//	}
-//
-//	@Test
-//	public void testControllerGetCustomerById() {
-//		Customer customer = new Customer("Anna Taylor", "anna@example.com", "5555555555");
-//		customerService.addCustomer(customer); // Add to database for controller testing
-//		ResponseEntity<Customer> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/" + customer.getId(), Customer.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(customer.getName(), response.getBody().getName());
-//	}
+		ResponseEntity<Customer> response = restTemplate.postForEntity(BASE_URL_CUSTOMER + "/addCustomer", request, Customer.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(newCustomer.getName(), response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerUpdateCustomer() {
-//		Customer customer = new Customer("Mark Taylor", "mark@example.com", "6666666666");
-//		customerService.addCustomer(customer);
-//
-//		customer.setName("Mark Updated");
-//		customer.setEmail("mark_updated@example.com");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Customer> request = new HttpEntity<>(customer, headers);
-//
-//		ResponseEntity<Customer> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/update/" + customer.getId(),
-//				HttpMethod.PUT,
-//				request,
-//				Customer.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals("Mark Updated", response.getBody().getName());
-//	}
+	@Test
+	public void testControllerGetAllCustomers() {
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/allCustomers", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().isEmpty());
+	}
 
-//	@Test
-//	public void testControllerDeleteCustomer() {
-//		Customer customer = new Customer("Sarah Connor", "sarah@example.com", "7777777777");
-//		customerService.addCustomer(customer);
-//
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/delete/" + customer.getId(),
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
+	@Test
+	public void testControllerGetCustomerById() {
+		Customer customer = new Customer("Anna Taylor", "anna@example.com", "5555555555");
+		customerService.addCustomer(customer); // Add to database for controller testing
+		ResponseEntity<Customer> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/" + customer.getId(), Customer.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(customer.getName(), response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerDeleteNonExistingCustomer() {
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/delete/" + 1,
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//	}
+	@Test
+	public void testControllerUpdateCustomer() {
+		Customer customer = new Customer("Mark Taylor", "mark@example.com", "6666666666");
+		customerService.addCustomer(customer);
 
-//	@Test
-//	public void testControllerFindCustomersByEmailDomain() {
-//		customerService.addCustomer(new Customer("Alice", "alice@domain.com", "1111111111"));
-//		customerService.addCustomer(new Customer("Bob", "bob@domain.com", "2222222222"));
-//
-//		String domain = "domain.com";
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_CUSTOMER + "/findByEmailDomain?domain=" + domain,
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//	}
-//
-//	@Test
-//	public void testControllerFindCustomersByPhonePrefix() {
-//		customerService.addCustomer(new Customer("Alice", "alice@example.com", "5551111111"));
-//		customerService.addCustomer(new Customer("Bob", "bob@example.com", "5552222222"));
-//
-//		String prefix = "555";
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_CUSTOMER + "/findByPhonePrefix?prefix=" + prefix,
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//	}
+		customer.setName("Mark Updated");
+		customer.setEmail("mark_updated@example.com");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Customer> request = new HttpEntity<>(customer, headers);
 
-//	@Test
-//	public void testControllerAddPayment() {
-//		Payment newPayment = new Payment(120.0, "Bank Transfer", true);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Payment> request = new HttpEntity<>(newPayment, headers);
-//
-//		ResponseEntity<Payment> response = restTemplate.postForEntity(BASE_URL_PAYMENT + "/addPayment", request, Payment.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(newPayment.getAmount(), response.getBody().getAmount());
-//	}
+		ResponseEntity<Customer> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/update/" + customer.getId(),
+				HttpMethod.PUT,
+				request,
+				Customer.class
+		);
 
-//	@Test
-//	public void testControllerGetAllPayments() {
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/allPayments", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().isEmpty());
-//	}
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals("Mark Updated", response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerGetPaymentById() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(200.0, "Credit Card", true);
-//		paymentService.addPayment(payment); // Add to database for controller testing
-//		ResponseEntity<Payment> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/" + ((Long) getID(PaymentPath).get(payment)), Payment.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(payment.getAmount(), response.getBody().getAmount());
-//	}
+	@Test
+	public void testControllerDeleteCustomer() {
+		Customer customer = new Customer("Sarah Connor", "sarah@example.com", "7777777777");
+		customerService.addCustomer(customer);
 
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/delete/" + customer.getId(),
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
 
-//	@Test
-//	public void testControllerUpdatePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(250.0, "PayPal", true);
-//		paymentService.addPayment(payment);
-//
-//		payment.setAmount(500.0);
-//		payment.setPaymentMethod("Updated PayPal");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
-//
-//		ResponseEntity<Payment> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/update/" + ((Long) getID(PaymentPath).get(payment)),
-//				HttpMethod.PUT,
-//				request,
-//				Payment.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(500.0, response.getBody().getAmount());
-//	}
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerDeleteNonExistingCustomer() {
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/delete/" + 1,
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+
+	}
+
+	@Test
+	public void testControllerFindCustomersByEmailDomain() {
+		customerService.addCustomer(new Customer("Alice", "alice@domain.com", "1111111111"));
+		customerService.addCustomer(new Customer("Bob", "bob@domain.com", "2222222222"));
+
+		String domain = "domain.com";
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_CUSTOMER + "/findByEmailDomain?domain=" + domain,
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+	}
+
+	@Test
+	public void testControllerFindCustomersByPhonePrefix() {
+		customerService.addCustomer(new Customer("Alice", "alice@example.com", "5551111111"));
+		customerService.addCustomer(new Customer("Bob", "bob@example.com", "5552222222"));
+
+		String prefix = "555";
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_CUSTOMER + "/findByPhonePrefix?prefix=" + prefix,
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+	}
+
+	@Test
+	public void testControllerAddPayment() {
+		Payment newPayment = new Payment(120.0, "Bank Transfer", true);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Payment> request = new HttpEntity<>(newPayment, headers);
+
+		ResponseEntity<Payment> response = restTemplate.postForEntity(BASE_URL_PAYMENT + "/addPayment", request, Payment.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(newPayment.getAmount(), response.getBody().getAmount());
+	}
+
+	@Test
+	public void testControllerGetAllPayments() {
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/allPayments", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().isEmpty());
+	}
+
+	@Test
+	public void testControllerGetPaymentById() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(200.0, "Credit Card", true);
+		paymentService.addPayment(payment); // Add to database for controller testing
+		ResponseEntity<Payment> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/" + ((Long) getID(PaymentPath).get(payment)), Payment.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(payment.getAmount(), response.getBody().getAmount());
+	}
 
 
-//	@Test
-//	public void testControllerDeletePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(300.0, "Cash", false);
-//		paymentService.addPayment(payment);
-//
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/delete/" + ((Long) getID(PaymentPath).get(payment)),
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
-//
-//	@Test
-//	public void testControllerDeleteNonExistingPayment() {
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/delete/" + 1,
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
+	@Test
+	public void testControllerUpdatePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(250.0, "PayPal", true);
+		paymentService.addPayment(payment);
 
-//	@Test
-//	public void testControllerFindPaymentsByAmountThreshold() {
-//		Payment payment = new Payment(550.0, "Credit Card", true);
-//		paymentService.addPayment(payment);
-//
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=300.0",
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().size() > 0);
-//	}
+		payment.setAmount(500.0);
+		payment.setPaymentMethod("Updated PayPal");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
 
-//	@Test
-//	public void testControllerFindPaymentsWithAmountGreaterThan() {
-//		paymentService.addPayment(new Payment(100.0, "Card", true));
-//		paymentService.addPayment(new Payment(200.0, "Cash", true));
-//
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=150.0",
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		// assertTrue(response.getBody().size() >= 1);
-//	}
+		ResponseEntity<Payment> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/update/" + ((Long) getID(PaymentPath).get(payment)),
+				HttpMethod.PUT,
+				request,
+				Payment.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(500.0, response.getBody().getAmount());
+	}
+
+
+	@Test
+	public void testControllerDeletePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(300.0, "Cash", false);
+		paymentService.addPayment(payment);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/delete/" + ((Long) getID(PaymentPath).get(payment)),
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerDeleteNonExistingPayment() {
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/delete/" + 1,
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerFindPaymentsByAmountThreshold() {
+		Payment payment = new Payment(550.0, "Credit Card", true);
+		paymentService.addPayment(payment);
+
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=300.0",
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().size() > 0);
+	}
+
+	@Test
+	public void testControllerFindPaymentsWithAmountGreaterThan() {
+		paymentService.addPayment(new Payment(100.0, "Card", true));
+		paymentService.addPayment(new Payment(200.0, "Cash", true));
+
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=150.0",
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		// assertTrue(response.getBody().size() >= 1);
+	}
 //
 //	@Test
 //	public void testControllerGetCaptainByLicenseNumberFound() {
@@ -760,25 +760,25 @@ class Mini2ApplicationTests {
 //		assertNotNull(retrievedCaptains);
 //		assertEquals(0, retrievedCaptains.size());
 //	}
-//
-//	@Test
-//	public void testServiceAddCustomer() {
-//		Customer customer = new Customer("Jane Doe", "jane@example.com", "1234567890");
-//		Customer savedCustomer = customerService.addCustomer(customer);
-//		assertNotNull(savedCustomer);
-//		assertEquals("Jane Doe", savedCustomer.getName());
-//	}
-//
-//	@Test
-//	public void testServiceGetAllCustomers() {
-//		Customer customer1 = new Customer("Alice", "alice@domain.com", "1111111111");
-//		Customer customer2 = new Customer("Bob", "bob@domain.com", "2222222222");
-//		customerService.addCustomer(customer1);
-//		customerService.addCustomer(customer2);
-//		List<Customer> customers = customerService.getAllCustomers();
-//		assertNotNull(customers);
-//		assertTrue(customers.size()==2);
-//	}
+
+	@Test
+	public void testServiceAddCustomer() {
+		Customer customer = new Customer("Jane Doe", "jane@example.com", "1234567890");
+		Customer savedCustomer = customerService.addCustomer(customer);
+		assertNotNull(savedCustomer);
+		assertEquals("Jane Doe", savedCustomer.getName());
+	}
+
+	@Test
+	public void testServiceGetAllCustomers() {
+		Customer customer1 = new Customer("Alice", "alice@domain.com", "1111111111");
+		Customer customer2 = new Customer("Bob", "bob@domain.com", "2222222222");
+		customerService.addCustomer(customer1);
+		customerService.addCustomer(customer2);
+		List<Customer> customers = customerService.getAllCustomers();
+		assertNotNull(customers);
+		assertTrue(customers.size()==2);
+	}
 
 }
 
