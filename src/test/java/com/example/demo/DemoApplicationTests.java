@@ -77,11 +77,11 @@ class Mini2ApplicationTests {
 //	private CaptainService captainService;
 //	@Autowired
 //	private CaptainRepository captainRepository;
-//
-//	@Autowired
-//	private CustomerService customerService;
-//	@Autowired
-//	private CustomerRepository customerRepository;
+
+	@Autowired
+	private CustomerService customerService;
+	@Autowired
+	private CustomerRepository customerRepository;
 
 	@Autowired
 	private PaymentService paymentService;
@@ -127,7 +127,7 @@ class Mini2ApplicationTests {
 		 tripRepository.deleteAll();
 		ratingRepository.deleteAll();
 		// captainRepository.deleteAll();
-		// customerRepository.deleteAll();
+		 customerRepository.deleteAll();
 	}
 	public static Field findFieldIgnoreCase(Class<?> clazz, String fieldName) {
 		Field[] declaredFields = clazz.getDeclaredFields();
@@ -208,115 +208,115 @@ class Mini2ApplicationTests {
 	}
 
 
-//	@Test
-//	public void testControllerAddCustomer() {
-//		Customer newCustomer = new Customer("John Doe", "john@example.com", "1234567890");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Customer> request = new HttpEntity<>(newCustomer, headers);
-//
-//		ResponseEntity<Customer> response = restTemplate.postForEntity(BASE_URL_CUSTOMER + "/addCustomer", request, Customer.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(newCustomer.getName(), response.getBody().getName());
-//	}
+	@Test
+	public void testControllerAddCustomer() {
+		Customer newCustomer = new Customer("John Doe", "john@example.com", "1234567890");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Customer> request = new HttpEntity<>(newCustomer, headers);
 
-//	@Test
-//	public void testControllerGetAllCustomers() {
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/allCustomers", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().isEmpty());
-//	}
-//
-//	@Test
-//	public void testControllerGetCustomerById() {
-//		Customer customer = new Customer("Anna Taylor", "anna@example.com", "5555555555");
-//		customerService.addCustomer(customer); // Add to database for controller testing
-//		ResponseEntity<Customer> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/" + customer.getId(), Customer.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(customer.getName(), response.getBody().getName());
-//	}
+		ResponseEntity<Customer> response = restTemplate.postForEntity(BASE_URL_CUSTOMER + "/addCustomer", request, Customer.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(newCustomer.getName(), response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerUpdateCustomer() {
-//		Customer customer = new Customer("Mark Taylor", "mark@example.com", "6666666666");
-//		customerService.addCustomer(customer);
-//
-//		customer.setName("Mark Updated");
-//		customer.setEmail("mark_updated@example.com");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Customer> request = new HttpEntity<>(customer, headers);
-//
-//		ResponseEntity<Customer> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/update/" + customer.getId(),
-//				HttpMethod.PUT,
-//				request,
-//				Customer.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals("Mark Updated", response.getBody().getName());
-//	}
+	@Test
+	public void testControllerGetAllCustomers() {
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/allCustomers", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().isEmpty());
+	}
 
-//	@Test
-//	public void testControllerDeleteCustomer() {
-//		Customer customer = new Customer("Sarah Connor", "sarah@example.com", "7777777777");
-//		customerService.addCustomer(customer);
-//
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/delete/" + customer.getId(),
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
+	@Test
+	public void testControllerGetCustomerById() {
+		Customer customer = new Customer("Anna Taylor", "anna@example.com", "5555555555");
+		customerService.addCustomer(customer); // Add to database for controller testing
+		ResponseEntity<Customer> response = restTemplate.getForEntity(BASE_URL_CUSTOMER + "/" + customer.getId(), Customer.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(customer.getName(), response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerDeleteNonExistingCustomer() {
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_CUSTOMER + "/delete/" + 1,
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//	}
+	@Test
+	public void testControllerUpdateCustomer() {
+		Customer customer = new Customer("Mark Taylor", "mark@example.com", "6666666666");
+		customerService.addCustomer(customer);
 
-//	@Test
-//	public void testControllerFindCustomersByEmailDomain() {
-//		customerService.addCustomer(new Customer("Alice", "alice@domain.com", "1111111111"));
-//		customerService.addCustomer(new Customer("Bob", "bob@domain.com", "2222222222"));
-//
-//		String domain = "domain.com";
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_CUSTOMER + "/findByEmailDomain?domain=" + domain,
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//	}
-//
-//	@Test
-//	public void testControllerFindCustomersByPhonePrefix() {
-//		customerService.addCustomer(new Customer("Alice", "alice@example.com", "5551111111"));
-//		customerService.addCustomer(new Customer("Bob", "bob@example.com", "5552222222"));
-//
-//		String prefix = "555";
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_CUSTOMER + "/findByPhonePrefix?prefix=" + prefix,
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//	}
+		customer.setName("Mark Updated");
+		customer.setEmail("mark_updated@example.com");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Customer> request = new HttpEntity<>(customer, headers);
+
+		ResponseEntity<Customer> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/update/" + customer.getId(),
+				HttpMethod.PUT,
+				request,
+				Customer.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals("Mark Updated", response.getBody().getName());
+	}
+
+	@Test
+	public void testControllerDeleteCustomer() {
+		Customer customer = new Customer("Sarah Connor", "sarah@example.com", "7777777777");
+		customerService.addCustomer(customer);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/delete/" + customer.getId(),
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerDeleteNonExistingCustomer() {
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_CUSTOMER + "/delete/" + 1,
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+
+	}
+
+	@Test
+	public void testControllerFindCustomersByEmailDomain() {
+		customerService.addCustomer(new Customer("Alice", "alice@domain.com", "1111111111"));
+		customerService.addCustomer(new Customer("Bob", "bob@domain.com", "2222222222"));
+
+		String domain = "domain.com";
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_CUSTOMER + "/findByEmailDomain?domain=" + domain,
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+	}
+
+	@Test
+	public void testControllerFindCustomersByPhonePrefix() {
+		customerService.addCustomer(new Customer("Alice", "alice@example.com", "5551111111"));
+		customerService.addCustomer(new Customer("Bob", "bob@example.com", "5552222222"));
+
+		String prefix = "555";
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_CUSTOMER + "/findByPhonePrefix?prefix=" + prefix,
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+	}
 
 	@Test
 	public void testControllerAddPayment() {
@@ -760,25 +760,25 @@ class Mini2ApplicationTests {
 //		assertNotNull(retrievedCaptains);
 //		assertEquals(0, retrievedCaptains.size());
 //	}
-//
-//	@Test
-//	public void testServiceAddCustomer() {
-//		Customer customer = new Customer("Jane Doe", "jane@example.com", "1234567890");
-//		Customer savedCustomer = customerService.addCustomer(customer);
-//		assertNotNull(savedCustomer);
-//		assertEquals("Jane Doe", savedCustomer.getName());
-//	}
-//
-//	@Test
-//	public void testServiceGetAllCustomers() {
-//		Customer customer1 = new Customer("Alice", "alice@domain.com", "1111111111");
-//		Customer customer2 = new Customer("Bob", "bob@domain.com", "2222222222");
-//		customerService.addCustomer(customer1);
-//		customerService.addCustomer(customer2);
-//		List<Customer> customers = customerService.getAllCustomers();
-//		assertNotNull(customers);
-//		assertTrue(customers.size()==2);
-//	}
+
+	@Test
+	public void testServiceAddCustomer() {
+		Customer customer = new Customer("Jane Doe", "jane@example.com", "1234567890");
+		Customer savedCustomer = customerService.addCustomer(customer);
+		assertNotNull(savedCustomer);
+		assertEquals("Jane Doe", savedCustomer.getName());
+	}
+
+	@Test
+	public void testServiceGetAllCustomers() {
+		Customer customer1 = new Customer("Alice", "alice@domain.com", "1111111111");
+		Customer customer2 = new Customer("Bob", "bob@domain.com", "2222222222");
+		customerService.addCustomer(customer1);
+		customerService.addCustomer(customer2);
+		List<Customer> customers = customerService.getAllCustomers();
+		assertNotNull(customers);
+		assertTrue(customers.size()==2);
+	}
 
 }
 
