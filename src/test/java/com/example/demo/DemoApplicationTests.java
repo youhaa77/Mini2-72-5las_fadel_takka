@@ -82,11 +82,11 @@ class Mini2ApplicationTests {
 //	private CustomerService customerService;
 //	@Autowired
 //	private CustomerRepository customerRepository;
-//
-//	@Autowired
-//	private PaymentService paymentService;
-//	@Autowired
-//	private PaymentRepository paymentRepository;
+
+	@Autowired
+	private PaymentService paymentService;
+	@Autowired
+	private PaymentRepository paymentRepository;
 
 	@Autowired
 	private TripService tripService;
@@ -123,8 +123,8 @@ class Mini2ApplicationTests {
 	public void setup() {
 		// Ensure all records are deleted
 
-		// paymentRepository.deleteAll();
-		// tripRepository.deleteAll();
+		 paymentRepository.deleteAll();
+		 tripRepository.deleteAll();
 		ratingRepository.deleteAll();
 		// captainRepository.deleteAll();
 		// customerRepository.deleteAll();
@@ -318,117 +318,117 @@ class Mini2ApplicationTests {
 //		assertNotNull(response.getBody());
 //	}
 
-//	@Test
-//	public void testControllerAddPayment() {
-//		Payment newPayment = new Payment(120.0, "Bank Transfer", true);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Payment> request = new HttpEntity<>(newPayment, headers);
-//
-//		ResponseEntity<Payment> response = restTemplate.postForEntity(BASE_URL_PAYMENT + "/addPayment", request, Payment.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(newPayment.getAmount(), response.getBody().getAmount());
-//	}
+	@Test
+	public void testControllerAddPayment() {
+		Payment newPayment = new Payment(120.0, "Bank Transfer", true);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Payment> request = new HttpEntity<>(newPayment, headers);
 
-//	@Test
-//	public void testControllerGetAllPayments() {
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/allPayments", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().isEmpty());
-//	}
+		ResponseEntity<Payment> response = restTemplate.postForEntity(BASE_URL_PAYMENT + "/addPayment", request, Payment.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(newPayment.getAmount(), response.getBody().getAmount());
+	}
 
-//	@Test
-//	public void testControllerGetPaymentById() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(200.0, "Credit Card", true);
-//		paymentService.addPayment(payment); // Add to database for controller testing
-//		ResponseEntity<Payment> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/" + ((Long) getID(PaymentPath).get(payment)), Payment.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(payment.getAmount(), response.getBody().getAmount());
-//	}
+	@Test
+	public void testControllerGetAllPayments() {
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/allPayments", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().isEmpty());
+	}
 
-
-//	@Test
-//	public void testControllerUpdatePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(250.0, "PayPal", true);
-//		paymentService.addPayment(payment);
-//
-//		payment.setAmount(500.0);
-//		payment.setPaymentMethod("Updated PayPal");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
-//
-//		ResponseEntity<Payment> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/update/" + ((Long) getID(PaymentPath).get(payment)),
-//				HttpMethod.PUT,
-//				request,
-//				Payment.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(500.0, response.getBody().getAmount());
-//	}
+	@Test
+	public void testControllerGetPaymentById() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(200.0, "Credit Card", true);
+		paymentService.addPayment(payment); // Add to database for controller testing
+		ResponseEntity<Payment> response = restTemplate.getForEntity(BASE_URL_PAYMENT + "/" + ((Long) getID(PaymentPath).get(payment)), Payment.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(payment.getAmount(), response.getBody().getAmount());
+	}
 
 
-//	@Test
-//	public void testControllerDeletePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
-//		Payment payment = new Payment(300.0, "Cash", false);
-//		paymentService.addPayment(payment);
-//
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/delete/" + ((Long) getID(PaymentPath).get(payment)),
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
-//
-//	@Test
-//	public void testControllerDeleteNonExistingPayment() {
-//		ResponseEntity<String> response = restTemplate.exchange(
-//				BASE_URL_PAYMENT + "/delete/" + 1,
-//				HttpMethod.DELETE,
-//				null,
-//				String.class
-//		);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//	}
+	@Test
+	public void testControllerUpdatePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(250.0, "PayPal", true);
+		paymentService.addPayment(payment);
 
-//	@Test
-//	public void testControllerFindPaymentsByAmountThreshold() {
-//		Payment payment = new Payment(550.0, "Credit Card", true);
-//		paymentService.addPayment(payment);
-//
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=300.0",
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().size() > 0);
-//	}
+		payment.setAmount(500.0);
+		payment.setPaymentMethod("Updated PayPal");
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Payment> request = new HttpEntity<>(payment, headers);
 
-//	@Test
-//	public void testControllerFindPaymentsWithAmountGreaterThan() {
-//		paymentService.addPayment(new Payment(100.0, "Card", true));
-//		paymentService.addPayment(new Payment(200.0, "Cash", true));
-//
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=150.0",
-//				List.class
-//		);
-//
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		// assertTrue(response.getBody().size() >= 1);
-//	}
+		ResponseEntity<Payment> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/update/" + ((Long) getID(PaymentPath).get(payment)),
+				HttpMethod.PUT,
+				request,
+				Payment.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(500.0, response.getBody().getAmount());
+	}
+
+
+	@Test
+	public void testControllerDeletePayment() throws NoSuchFieldException, ClassNotFoundException, IllegalAccessException {
+		Payment payment = new Payment(300.0, "Cash", false);
+		paymentService.addPayment(payment);
+
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/delete/" + ((Long) getID(PaymentPath).get(payment)),
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerDeleteNonExistingPayment() {
+		ResponseEntity<String> response = restTemplate.exchange(
+				BASE_URL_PAYMENT + "/delete/" + 1,
+				HttpMethod.DELETE,
+				null,
+				String.class
+		);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+	}
+
+	@Test
+	public void testControllerFindPaymentsByAmountThreshold() {
+		Payment payment = new Payment(550.0, "Credit Card", true);
+		paymentService.addPayment(payment);
+
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=300.0",
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().size() > 0);
+	}
+
+	@Test
+	public void testControllerFindPaymentsWithAmountGreaterThan() {
+		paymentService.addPayment(new Payment(100.0, "Card", true));
+		paymentService.addPayment(new Payment(200.0, "Cash", true));
+
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_PAYMENT + "/findByAmountThreshold?threshold=150.0",
+				List.class
+		);
+
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		// assertTrue(response.getBody().size() >= 1);
+	}
 //
 //	@Test
 //	public void testControllerGetCaptainByLicenseNumberFound() {
