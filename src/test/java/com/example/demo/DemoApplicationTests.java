@@ -73,10 +73,10 @@ class Mini2ApplicationTests {
 	@Autowired
 	private RestTemplate restTemplate;
 
-//	@Autowired
-//	private CaptainService captainService;
-//	@Autowired
-//	private CaptainRepository captainRepository;
+	@Autowired
+	private CaptainService captainService;
+	@Autowired
+    private CaptainRepository captainRepository;
 
 	@Autowired
 	private CustomerService customerService;
@@ -149,55 +149,55 @@ class Mini2ApplicationTests {
 	void contextLoads() {
 
 	}
-//	@Test
-//	public void testControllerAddCaptain() {
-//		Captain newCaptain = new Captain("John Doe", "54321", 4.5);
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setContentType(MediaType.APPLICATION_JSON);
-//		HttpEntity<Captain> request = new HttpEntity<>(newCaptain, headers);
-//
-//		ResponseEntity<Captain> response = restTemplate.postForEntity(BASE_URL_CAPTAIN + "/addCaptain", request, Captain.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(newCaptain.getName(), response.getBody().getName());
-//	}
+	@Test
+	public void testControllerAddCaptain() {
+		Captain newCaptain = new Captain("John Doe", "54321", 4.5);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Captain> request = new HttpEntity<>(newCaptain, headers);
 
-//	@Test
-//	public void testControllerGetAllCaptains() {
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/allCaptains", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(response.getBody().isEmpty());
-//	}
-//	@Test
-//	public void testControllerGetCaptainById() {
-//		Captain captain = new Captain("Anna Taylor", "67890", 3.8);
-//		captainService.addCaptain(captain); // Add to database for controller testing
-//		ResponseEntity<Captain> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/" + captain.getId(), Captain.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals(captain.getName(), response.getBody().getName());
-//	}
+		ResponseEntity<Captain> response = restTemplate.postForEntity(BASE_URL_CAPTAIN + "/addCaptain", request, Captain.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(newCaptain.getName(), response.getBody().getName());
+	}
 
-//	@Test
-//	public void testControllerGetCaptainsByRating() {
-//		// Add sample captains to the database
-//		captainService.addCaptain(new Captain("Captain A", "123", 4.5));
-//		captainService.addCaptain(new Captain("Captain B", "456", 3.2));
-//
-//		// Set the rating threshold
-//		double ratingThreshold = 4.0;
-//
-//		// Make the GET request to the endpoint
-//		ResponseEntity<List> response = restTemplate.getForEntity(
-//				BASE_URL_CAPTAIN + "/filterByRating?ratingThreshold=" + ratingThreshold,
-//				List.class
-//		);
-//
-//		// Validate the response
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//	}
+	@Test
+	public void testControllerGetAllCaptains() {
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/allCaptains", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(response.getBody().isEmpty());
+	}
+	@Test
+	public void testControllerGetCaptainById() {
+		Captain captain = new Captain("Anna Taylor", "67890", 3.8);
+		captainService.addCaptain(captain); // Add to database for controller testing
+		ResponseEntity<Captain> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/" + captain.getId(), Captain.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals(captain.getName(), response.getBody().getName());
+	}
+
+	@Test
+	public void testControllerGetCaptainsByRating() {
+		// Add sample captains to the database
+		captainService.addCaptain(new Captain("Captain A", "123", 4.5));
+		captainService.addCaptain(new Captain("Captain B", "456", 3.2));
+
+		// Set the rating threshold
+		double ratingThreshold = 4.0;
+
+		// Make the GET request to the endpoint
+		ResponseEntity<List> response = restTemplate.getForEntity(
+				BASE_URL_CAPTAIN + "/filterByRating?ratingThreshold=" + ratingThreshold,
+				List.class
+		);
+
+		// Validate the response
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+	}
 
 	@Test
 	public void testControllerGetAllTrips() {
