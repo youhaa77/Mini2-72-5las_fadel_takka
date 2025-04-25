@@ -76,7 +76,7 @@ class Mini2ApplicationTests {
 	@Autowired
 	private CaptainService captainService;
 	@Autowired
-    private CaptainRepository captainRepository;
+	private CaptainRepository captainRepository;
 
 	@Autowired
 	private CustomerService customerService;
@@ -123,11 +123,11 @@ class Mini2ApplicationTests {
 	public void setup() {
 		// Ensure all records are deleted
 
-		 paymentRepository.deleteAll();
-		 tripRepository.deleteAll();
+		paymentRepository.deleteAll();
+		tripRepository.deleteAll();
 		ratingRepository.deleteAll();
-		// captainRepository.deleteAll();
-		 customerRepository.deleteAll();
+		captainRepository.deleteAll();
+		customerRepository.deleteAll();
 	}
 	public static Field findFieldIgnoreCase(Class<?> clazz, String fieldName) {
 		Field[] declaredFields = clazz.getDeclaredFields();
@@ -429,29 +429,29 @@ class Mini2ApplicationTests {
 		assertNotNull(response.getBody());
 		// assertTrue(response.getBody().size() >= 1);
 	}
-//
-//	@Test
-//	public void testControllerGetCaptainByLicenseNumberFound() {
-//		Captain captain = captainService.addCaptain(new Captain("Test Captain 2", "LC456", 4.2));
-//		ResponseEntity<Captain> response = restTemplate.getForEntity(
-//				BASE_URL_CAPTAIN + "/filterByLicenseNumber?licenseNumber=LC456",
-//				Captain.class
-//		);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertEquals("Test Captain 2", response.getBody().getName());
-////	}
-//
-//	@Test
-//	public void testControllerGetCaptainByLicenseNumberNotFound() {
-//		ResponseEntity<Captain> response = restTemplate.getForEntity(
-//				BASE_URL_CAPTAIN + "/filterByLicenseNumber?licenseNumber=NONEXISTENT",
-//				Captain.class
-//		);
-//		assertEquals(HttpStatus.OK, response.getStatusCode()); // Or potentially HttpStatus.NOT_FOUND depending on your controller logic
-//		assertNull(response.getBody()); // Or handle the 404 case appropriately
-//	}
-//
+
+	@Test
+	public void testControllerGetCaptainByLicenseNumberFound() {
+		Captain captain = captainService.addCaptain(new Captain("Test Captain 2", "LC456", 4.2));
+		ResponseEntity<Captain> response = restTemplate.getForEntity(
+				BASE_URL_CAPTAIN + "/filterByLicenseNumber?licenseNumber=LC456",
+				Captain.class
+		);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertEquals("Test Captain 2", response.getBody().getName());
+	}
+
+	@Test
+	public void testControllerGetCaptainByLicenseNumberNotFound() {
+		ResponseEntity<Captain> response = restTemplate.getForEntity(
+				BASE_URL_CAPTAIN + "/filterByLicenseNumber?licenseNumber=NONEXISTENT",
+				Captain.class
+		);
+		assertEquals(HttpStatus.OK, response.getStatusCode()); // Or potentially HttpStatus.NOT_FOUND depending on your controller logic
+		assertNull(response.getBody()); // Or handle the 404 case appropriately
+	}
+
 	@Test
 	public void testControllerFindRatingsByEntityNotFound() {
 		ResponseEntity<List> response = restTemplate.getForEntity(
@@ -602,15 +602,15 @@ class Mini2ApplicationTests {
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNotNull(response.getBody());
 	}
-//
-//	@Test
-//	public void testControllerGetCaptainsByRatingNoResults() {
-//		captainService.addCaptain(new Captain("Low Rating", "LR789", 2.0));
-//		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/filterByRating?ratingThreshold=4.0", List.class);
-//		assertEquals(HttpStatus.OK, response.getStatusCode());
-//		assertNotNull(response.getBody());
-//		assertTrue(((List<?>) response.getBody()).isEmpty());
-//	}
+
+	@Test
+	public void testControllerGetCaptainsByRatingNoResults() {
+		captainService.addCaptain(new Captain("Low Rating", "LR789", 2.0));
+		ResponseEntity<List> response = restTemplate.getForEntity(BASE_URL_CAPTAIN + "/filterByRating?ratingThreshold=4.0", List.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertNotNull(response.getBody());
+		assertTrue(((List<?>) response.getBody()).isEmpty());
+	}
 
 	@Test
 	public void testControllerAddTrip() {
@@ -691,75 +691,75 @@ class Mini2ApplicationTests {
 	}
 
 
-//	@Test
-//	public void testServiceAddCaptain() {
-//		Captain captain = new Captain("Jane Doe", "98765", 4.9);
-//		Captain savedCaptain = captainService.addCaptain(captain);
-//		assertNotNull(savedCaptain);
-//		assertEquals("Jane Doe", savedCaptain.getName());
-//	}
-//
-//	@Test
-//	public void testServiceAddNullCaptain() {
-//		assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-//			captainService.addCaptain(null);
-//		});
-//	}
+	@Test
+	public void testServiceAddCaptain() {
+		Captain captain = new Captain("Jane Doe", "98765", 4.9);
+		Captain savedCaptain = captainService.addCaptain(captain);
+		assertNotNull(savedCaptain);
+		assertEquals("Jane Doe", savedCaptain.getName());
+	}
 
-//	@Test
-//	public void testServiceGetAllEmptyCaptains() {
-//		List<Captain> captains = captainService.getAllCaptains();
-//		assertNotNull(captains);
-//		assertTrue(captains.isEmpty());
-//	}
-//
-//	@Test
-//	public void testServiceGetAllCaptains() {
-//		Captain captain1 = new Captain("Captain A", "12345", 4.5);
-//		Captain captain2 = new Captain("Captain B", "67890", 4.8);
-//		captainService.addCaptain(captain1);
-//		captainService.addCaptain(captain2);
-//		List<Captain> captains = captainService.getAllCaptains();
-//		assertNotNull(captains);
-//		assertTrue(captains.size()==2);
-//	}
+	@Test
+	public void testServiceAddNullCaptain() {
+		assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+			captainService.addCaptain(null);
+		});
+	}
 
-//	@Test
-//	public void testServiceGetNullCaptainById() {
-//		assertThrows(InvalidDataAccessApiUsageException.class, () -> {
-//			captainService.getCaptainById(null);
-//		});
-//	}
+	@Test
+	public void testServiceGetAllEmptyCaptains() {
+		List<Captain> captains = captainService.getAllCaptains();
+		assertNotNull(captains);
+		assertTrue(captains.isEmpty());
+	}
 
-//	@Test
-//	public void testServiceGetCaptainsByRating() {
-//		// Add sample captains
-//		Captain captain1 = new Captain("Captain A", "12345", 4.5);
-//		Captain captain2 = new Captain("Captain B", "67890", 4.8);
-//		captainService.addCaptain(captain1);
-//		captainService.addCaptain(captain2);
-//
-//		// Act: Retrieve captains with rating above threshold
-//		Double ratingThreshold = 4.0;
-//		List<Captain> retrievedCaptains = captainService.getCaptainsByRating(ratingThreshold);
-//
-//		// Assert: Check that the correct captains are retrieved
-//		assertNotNull(retrievedCaptains);
-//		assertEquals(2, retrievedCaptains.size());
-//		assertTrue(retrievedCaptains.get(0).getName().equals("Captain A"));
-//		assertTrue(retrievedCaptains.get(1).getName().equals("Captain B"));
-//	}
-//
-//	@Test
-//	public void testServiceGetFromEmptyListCaptainsByRating() {
-//		// Act: Retrieve captains with rating above threshold
-//		Double ratingThreshold = 4.0;
-//		List<Captain> retrievedCaptains = captainService.getCaptainsByRating(ratingThreshold);
-//
-//		// Assert: Check that the correct captains are retrieved
-//		assertNotNull(retrievedCaptains);
-//		assertEquals(0, retrievedCaptains.size());
-//	}
+	@Test
+	public void testServiceGetAllCaptains() {
+		Captain captain1 = new Captain("Captain A", "12345", 4.5);
+		Captain captain2 = new Captain("Captain B", "67890", 4.8);
+		captainService.addCaptain(captain1);
+		captainService.addCaptain(captain2);
+		List<Captain> captains = captainService.getAllCaptains();
+		assertNotNull(captains);
+		assertTrue(captains.size()==2);
+	}
+
+	@Test
+	public void testServiceGetNullCaptainById() {
+		assertThrows(InvalidDataAccessApiUsageException.class, () -> {
+			captainService.getCaptainById(null);
+		});
+	}
+
+	@Test
+	public void testServiceGetCaptainsByRating() {
+		// Add sample captains
+		Captain captain1 = new Captain("Captain A", "12345", 4.5);
+		Captain captain2 = new Captain("Captain B", "67890", 4.8);
+		captainService.addCaptain(captain1);
+		captainService.addCaptain(captain2);
+
+		// Act: Retrieve captains with rating above threshold
+		Double ratingThreshold = 4.0;
+		List<Captain> retrievedCaptains = captainService.getCaptainsByRating(ratingThreshold);
+
+		// Assert: Check that the correct captains are retrieved
+		assertNotNull(retrievedCaptains);
+		assertEquals(2, retrievedCaptains.size());
+		assertTrue(retrievedCaptains.get(0).getName().equals("Captain A"));
+		assertTrue(retrievedCaptains.get(1).getName().equals("Captain B"));
+	}
+
+	@Test
+	public void testServiceGetFromEmptyListCaptainsByRating() {
+		// Act: Retrieve captains with rating above threshold
+		Double ratingThreshold = 4.0;
+		List<Captain> retrievedCaptains = captainService.getCaptainsByRating(ratingThreshold);
+
+		// Assert: Check that the correct captains are retrieved
+		assertNotNull(retrievedCaptains);
+		assertEquals(0, retrievedCaptains.size());
+	}
 
 	@Test
 	public void testServiceAddCustomer() {
